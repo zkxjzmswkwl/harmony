@@ -1,0 +1,12 @@
+{
+	"authors": [
+		"Carter"
+	],
+	"copyright": "Copyright © 2022, Carter",
+	"dependencies": {
+		"vibe-d": "~>0.9"
+	},
+	"description": "Discord but not electron and also not Discord.",
+	"license": "MIT",
+	"name": "harmony"
+}

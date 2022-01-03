@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/harmony
+harmony.so
+harmony.dylib
+harmony.dll
+harmony.a
+harmony.lib
+harmony-test-*
+*.exe
+*.o
+*.obj
+*.lst

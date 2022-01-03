@@ -1,0 +1,6 @@
+doctype html
+html
+    head
+        title Harmony
+        body
+            block body
