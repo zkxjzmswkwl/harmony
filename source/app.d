@@ -1,6 +1,7 @@
+import std.stdio;
 import vibe.vibe;
-
 import global;
+import db;
 
 void index(HTTPServerRequest req, HTTPServerResponse res)
 {
@@ -15,8 +16,13 @@ void main()
 
 	Global
 		.getRouter()
-			.addRoute("get", "/test", &index)
-			.addRoute("get", "/", &index);
+		.addRoute("get", "/test", &index)
+		.addRoute("get", "/", &index);
+
+	auto focus = Focus(FocusType.GAME, "Overwatch", "overwatch_image_url", "hate myself.");
+	auto profile = Profile("Carter", "image_url", "Test", focus);
+
+	Global.getDb().insert(profile);
 
 	auto listener = listenHTTP(new HTTPServerSettings, Global.getRouter().getVibeRouter());
 	scope (exit)
