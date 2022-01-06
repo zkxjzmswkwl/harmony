@@ -4,13 +4,9 @@
 	],
 	"copyright": "Copyright © 2022, Carter",
 	"dependencies": {
-		"microrm": "~>0.8.1",
 		"vibe-d": "~>0.9"
 	},
 	"description": "Discord but not electron and also not Discord.",
 	"license": "MIT",
-	"name": "harmony",
-	"subConfigurations": {
-		"d2sqlite3": "all-included"
-	}
+	"name": "harmony"
 }

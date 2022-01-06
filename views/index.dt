@@ -1,4 +1,3 @@
 extends layout
 block body
-    h1 Harmony - Home
-    p Hello, bastard!
+	p #{balls}

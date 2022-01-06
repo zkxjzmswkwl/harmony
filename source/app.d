@@ -2,10 +2,12 @@ import std.stdio;
 import vibe.vibe;
 import global;
 import db;
+import api;
 
 void index(HTTPServerRequest req, HTTPServerResponse res)
 {
-	res.render!("index.dt", req);
+	string balls = "BALLS";
+	res.render!("index.dt", balls);
 }
 
 void main()
@@ -15,16 +17,20 @@ void main()
 	settings.bindAddresses = ["::1", "127.0.0.1"];
 
 	Global
-		.getRouter()
+        .getRouter()
+		.addRoute("get", "/user/:user", &api.getProfile)
 		.addRoute("get", "/test", &index)
 		.addRoute("get", "/", &index);
 
-	auto focus = Focus(FocusType.GAME, "Overwatch", "overwatch_image_url", "hate myself.");
-	auto profile = Profile("Carter", "image_url", "Test", focus);
+	auto identifier = Identifier();
+	Global.getDb().insert(identifier);
 
-	Global.getDb().insert(profile);
+	// auto focus = Focus(FocusType.GAME, "Overwatch", "icon_url", "good question");
+	// auto profile = Profile("Carter", "avi_url", "?XD", focus);
 
-	auto listener = listenHTTP(new HTTPServerSettings, Global.getRouter().getVibeRouter());
+	// Global.getDb().insert(profile);
+
+	auto listener = listenHTTP(settings, Global.getRouter().getVibeRouter());
 	scope (exit)
 	{
 		listener.stopListening();

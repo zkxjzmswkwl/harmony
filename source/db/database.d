@@ -1,6 +1,15 @@
 module db.database;
 
+import std.uuid;
+import std.conv;
+
 import microrm;
+
+auto cts() @property
+{
+    import std.datetime;
+    return Clock.currStdTime;
+}
 
 enum RequestType
 {
@@ -10,54 +19,47 @@ enum RequestType
     DELETE
 }
 
-enum FocusType
+enum ServerType
 {
-    GAME,
-    STUDY,
-    CODE
+    PROJECT,
+    COMMUNITY,
+    TEST,
+    OFFIICAL,
+    GAME
 }
 
-struct Request
+enum ImageType
 {
-    string url;
-    string timestamp;
-    string ip;
-    string headers;
-    bool deemedMalicious;
-    RequestType type;
+    INLINE,
+    SERVER,
+    USER
 }
 
-struct Focus
+struct Image
 {
-    FocusType type;
-    string title;
-    string icon;
-    string explanation;
+    int         id;
+    ImageType   type;
+    Date        timestamp;
 }
 
-struct Profile
+struct Server
 {
-    string displayName;
-    string picture;
-    string status;
-    Focus focus;
+    int         id;
+    int         deleteFlag;
+    string      name;
+    ServerType  type;
 }
 
-struct Account
+struct User
 {
-    Profile profile;
-    string email;
-    string password;
-    string ip;
-    string timeCreated;
-    string timeAccessed;
-    string phoneNumber;
-    bool isBanned = false;
+    int     id;
+    int     deleteFlag;
+    string  name;
+    string  email;
+    string  password;
+    Date    timeCreated;
+    Date    lastAccess;
 }
-
-enum schema = buildSchema!(
-    Request, Focus, Profile, Account
-);
 
 class Database
 {
@@ -71,8 +73,14 @@ class Database
 
     auto insert(T)(T data)
     {
+        // data.id = md5UUID(data.timeCreated).toString();
         db.insert(data);
         return this;
     }
-}
 
+    auto read(int id)
+    {
+        return db.select!Profile.where("id =", id).run;
+    }
+
+}
